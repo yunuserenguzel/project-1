@@ -18,6 +18,10 @@ class Util {
     public static function GenerateAuthToken(){
         return uniqid(Util::$SERVERNAME) . uniqid() . uniqid();
     }
+
+    public static function GeneratePassHash($password){
+        return md5($password);
+    }
 }
 
 

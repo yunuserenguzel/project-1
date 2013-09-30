@@ -17,14 +17,18 @@ class AuthenticationManager {
     public static function AuthenticateWithToken($token){
         if(AuthenticationManager::$AuthenticatedUser == null){
             $user = User::GetAuthenticatedUser($token);
-            if($user != null)
-            AuthenticationManager::$AuthenticatedUser = $user;
-            AuthenticationManager::$AuthenticationToken = $token;
+            if($user != null){
+                AuthenticationManager::$AuthenticatedUser = $user;
+                AuthenticationManager::$AuthenticationToken = $token;
+            }
         }
 
     }
 
     public static function AuthenticatedUser(){
+        if(AuthenticationManager::$AuthenticatedUser == null){
+            throwError(ApiUnAuthorizedOperationError,"please use authentication token");
+        }
         return AuthenticationManager::$AuthenticatedUser;
     }
 

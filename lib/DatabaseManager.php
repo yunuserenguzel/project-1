@@ -1,10 +1,6 @@
 <?php
-/**
- *   Sonicraph
- *   20.09.2013
- *   Yunus Eren Güzel
- *   Database Manager Class
- */
+
+define("DatabaseConnectorShouldIgnoreError",false);
 
 class DatabaseConnector{
 
@@ -15,10 +11,9 @@ class DatabaseConnector{
     private static function checkError($sql){
         if(mysql_errno() > 0)
             die("$sql : <br/>" . mysql_error());
-
     }
 
-    public static function get_results( $sql,$ignoreError = true ){
+    public static function get_results( $sql,$ignoreError = DatabaseConnectorShouldIgnoreError ){
         if(DatabaseConnector::$isConnected == false){
             DatabaseConnector::connect();
             DatabaseConnector::$isConnected = true;
@@ -32,7 +27,7 @@ class DatabaseConnector{
         return $results;
     }
 
-    public static function get_single( $sql,$ignoreError = true ){
+    public static function get_single( $sql,$ignoreError = DatabaseConnectorShouldIgnoreError ){
         if(DatabaseConnector::$isConnected == false){
             DatabaseConnector::connect();
             DatabaseConnector::$isConnected = true;
@@ -44,7 +39,7 @@ class DatabaseConnector{
         return mysql_fetch_object($resultset);
     }
 
-    public static function get_value( $sql,$ignoreError = true ){
+    public static function get_value( $sql,$ignoreError = DatabaseConnectorShouldIgnoreError ){
         if(DatabaseConnector::$isConnected == false){
             DatabaseConnector::connect();
             DatabaseConnector::$isConnected = true;
@@ -57,7 +52,7 @@ class DatabaseConnector{
         return $row[0];
     }
 
-    public static function query( $sql,$ignoreError = true ){
+    public static function query( $sql,$ignoreError = DatabaseConnectorShouldIgnoreError ){
         if(DatabaseConnector::$isConnected == false){
             DatabaseConnector::connect();
             DatabaseConnector::$isConnected = true;

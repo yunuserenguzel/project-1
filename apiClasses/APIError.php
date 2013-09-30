@@ -7,11 +7,13 @@
  * To change this template use File | Settings | File Templates.
  */
 
-define("ApiAuthenticationFailedError", 1001);
+define("ApiAuthenticationFailedError", 2001);
 define("ApiParameterMissingError",1000);
+define("ApiUnAuthorizedOperationError",2002);
 define("ApiUsernameExistsError",3001);
 define("ApiEmailExistsError",3002);
-
+define("ApiInvalidFieldNameError",3003);
+define("ApiInvalidInputError",3004);
 function throwError($code,$description){
     $result = new stdClass();
     $result->error = new stdClass();

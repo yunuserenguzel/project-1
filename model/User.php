@@ -35,6 +35,20 @@ class User {
         }
     }
 
+    public static function IsUserLoginCorrect($usernameOrEmail,$passhash){
+        $usernameOrEmail = mysql_real_escape_string($usernameOrEmail);
+        $passhash = mysql_real_escape_string($passhash);
+
+        $sql = "SELECT id FROM user WHERE (username='$usernameOrEmail' OR email='$usernameOrEmail') AND passhash='$passhash' ";
+
+        if($user_id = DatabaseConnector::get_value($sql)){
+            return $user_id;
+        }
+        else{
+            return false;
+        }
+    }
+
     public static function NewUser($username,$email,$passhash){
         $username = mysql_real_escape_string($username);
         $email = mysql_real_escape_string($email);
@@ -42,7 +56,7 @@ class User {
 
         $userId = Util::GenerateUniqueId();
 
-        $sql = "INSERT INTO `user`(`id`, `username`, `email`, `passhash`) VALUES ('$username','$email','$passhash')";
+        $sql = "INSERT INTO `user`(`id`, `username`, `email`, `passhash`) VALUES ('$userId','$username','$email','$passhash')";
         DatabaseConnector::query($sql);
 
         return $userId;
@@ -143,7 +157,9 @@ class User {
         $token = Util::GenerateAuthToken();
 
         $sql = "INSERT INTO `authentication`(`token`, `user_id`, `creation_date`, `platform`, `is_active`) VALUES ('$token','$userId',Now(),'$platform',1)";
-        return DatabaseConnector::query($sql);
+        DatabaseConnector::query($sql);
+        return $token;
+
     }
 
 
@@ -155,7 +171,7 @@ class User {
         }
         else {
             return false;
-        };
+        }
     }
 
     public static function GetAuthenticatedUser($token){

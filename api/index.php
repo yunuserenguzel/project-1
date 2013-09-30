@@ -2,12 +2,16 @@
 require_once('../apiClasses/APINotification.php');
 require_once('../apiClasses/APISonickle.php');
 require_once('../apiClasses/APIUser.php');
+require_once('../apiClasses/APIError.php');
 require_once('../lib/AuthenticationManager.php');
+require_once('../lib/Util.php');
+
 
 $cmd = param('cmd',true, 1000, "API command is missing");
 $token = param('token',false);
 
 $result = new stdClass();
+$result->cmd = $cmd;
 
 if($token != ''){
     AuthenticationManager::AuthenticateWithToken($token);
@@ -22,7 +26,8 @@ switch($cmd){
     case 'login':
         $user = param('user');
         $password = param('password');
-        $result = APIUser::Login($user,$password);
+        $platform = param('platform');
+        $result = APIUser::Login($user,$password,$platform);
         break;
 
     case 'register':
@@ -117,3 +122,5 @@ switch($cmd){
         break;
 
 }
+
+echo json_encode($result);

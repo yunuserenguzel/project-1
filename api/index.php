@@ -29,7 +29,8 @@ switch($cmd){
         $username = param('username');
         $password = param('password');
         $email = param('email');
-        $result = APIUser::Register($username,$email,$password);
+        $platform = param('platform');
+        $result = APIUser::Register($username,$email,$password,$platform);
         break;
 
     case 'reset_password':

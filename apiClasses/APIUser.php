@@ -15,15 +15,17 @@ class APIUser{
 
     }
 
-    public static function Register($username,$email,$password){
+    public static function Register($username,$email,$password,$platform){
         if(User::IsUsernameExists($username) == true){
-
+            throwError(ApiUsernameExistsError,"this username is taken $username");
         }
         if(User::IsEmailExists($email) == true){
-
+            throwError(ApiEmailExistsError,"this email is taken $email");
         }
-        User::NewUser($username,$email,$password);
-
+        $userId = User::NewUser($username,$email,$password);
+        $result = new stdClass();
+        $result->token = User::CreateAuthenticationForUser($userId,$platform);
+        return $result;
     }
 
     public static function ResetPassword($email){

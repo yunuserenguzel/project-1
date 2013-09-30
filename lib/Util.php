@@ -20,13 +20,7 @@ class Util {
     }
 }
 
-function throwError($code,$description){
-    $result = new stdClass();
-    $result->error = new stdClass();
-    $result->error->code = $code;
-    $result->error->description = $description;
-    die(json_encode($result));
-}
+
 function param($hash,$required = true, $code = 1001, $description = 'parameter missing '){
     $param =  isset($_GET[$hash]) ? $_GET[$hash] : (isset($_POST[$hash]) ? $_POST[$hash] : '');
     if($param == '' && $required){

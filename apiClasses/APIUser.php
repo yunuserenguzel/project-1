@@ -74,6 +74,7 @@ class APIUser{
     public static function Follow($userIdToBeFollowed){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         User::FollowUser($userId,$userIdToBeFollowed);
+        Notification::CreateNotification(NotificationTypeUserFollow,$userId,null,$userIdToBeFollowed);
         return 1;
     }
 
@@ -85,36 +86,13 @@ class APIUser{
 
     public static function GetFollowerList($pageNumber,$pageCount){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
-        if(!is_numeric($pageNumber)){
-            throwError(ApiInvalidInputError,"pageNumber should be a number");
-        }
-        if(!is_numeric($pageCount)){
-            throwError(ApiInvalidInputError,"pageCount should be a number");
-        }
-        if($pageNumber < 0){
-            throwError(ApiInvalidInputError,"pageNumber cannot be negative");
-        }
-        if($pageCount < 0){
-            throwError(ApiInvalidInputError,"pageCount cannot be negative");
-        }
-
+        CheckPageNumberAndCount($pageNumber,$pageCount);
         return User::GetFollowerListOfUser($userId,$pageNumber,$pageCount);
     }
 
     public static function GetFollowedList($pageNumber,$pageCount){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
-        if(!is_numeric($pageNumber)){
-            throwError(ApiInvalidInputError,"pageNumber should be a number");
-        }
-        if(!is_numeric($pageCount)){
-            throwError(ApiInvalidInputError,"pageCount should be a number");
-        }
-        if($pageNumber < 0){
-            throwError(ApiInvalidInputError,"pageNumber cannot be negative");
-        }
-        if($pageCount < 0){
-            throwError(ApiInvalidInputError,"pageCount cannot be negative");
-        }
+        CheckPageNumberAndCount($pageNumber,$pageCount);
         return User::GetFollowedListOfUser($userId,$pageNumber,$pageCount);
     }
 

@@ -10,6 +10,10 @@
 require_once('../lib/DatabaseManager.php');
 require_once('../lib/Util.php');
 
+define("NotificationTypeUserFollow",NotificationTypeUserFollow);
+define("NotificationTypeSonickleLike",NotificationTypeSonickleLike);
+
+
 class Notification {
 
     public static function CreateNotification($type,$userId,$sonickleId,$otherUserId){

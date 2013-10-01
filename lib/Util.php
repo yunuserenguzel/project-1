@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+
 class Util {
 
     public static $SERVERNAME = "SNCKL001";
@@ -31,4 +32,19 @@ function param($hash,$required = true, $code = 1001, $description = 'parameter m
         throwError($code,"$description: $hash");
     }
     return $param;
+}
+
+function CheckPageNumberAndCount($pageNumber,$pageCount){
+    if(!is_numeric($pageNumber)){
+        throwError(ApiInvalidInputError,"pageNumber should be a number");
+    }
+    if(!is_numeric($pageCount)){
+        throwError(ApiInvalidInputError,"pageCount should be a number");
+    }
+    if($pageNumber < 0){
+        throwError(ApiInvalidInputError,"pageNumber cannot be negative");
+    }
+    if($pageCount < 0){
+        throwError(ApiInvalidInputError,"pageCount cannot be negative");
+    }
 }

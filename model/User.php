@@ -183,4 +183,10 @@ class User {
         return DatabaseConnector::get_single($sql);
     }
 
+
+    public static function SearchUser($query){
+        $query = mysql_real_escape_string($query);
+        $sql = "SELECT * FROM user WHERE username LIKE '%$query%' OR `name` LIKE '%$query%' OR email LIKE '%$query%'";
+        return DatabaseConnector::get_results($sql);
+    }
 }

@@ -8,6 +8,7 @@
  */
 
 require_once('../model/User.php');
+require_once('../model/Notification.php');
 
 class APIUser{
 
@@ -35,7 +36,7 @@ class APIUser{
         $passhash = Util::GeneratePassHash($password);
         $userId = User::NewUser($username,$email,$passhash);
         $result = new stdClass();
-        $result->userId = $userId;
+        $result->user_id = $userId;
         $result->token = User::CreateAuthenticationForUser($userId,$platform);
         return $result;
     }
@@ -67,7 +68,7 @@ class APIUser{
         }
         else
             throwError(ApiInvalidFieldNameError,"Field name is invalid: $field");
-        return 1;
+        return successfulOperation();
 
     }
 
@@ -75,28 +76,32 @@ class APIUser{
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         User::FollowUser($userId,$userIdToBeFollowed);
         Notification::CreateNotification(NotificationTypeUserFollow,$userId,null,$userIdToBeFollowed);
-        return 1;
+        return successfulOperation();
     }
 
     public static function UnFollow($userIdToBeFollowed){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         User::UnFollowUser($userId,$userIdToBeFollowed);
-        return 1;
+        return successfulOperation();
     }
 
     public static function GetFollowerList($pageNumber,$pageCount){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         CheckPageNumberAndCount($pageNumber,$pageCount);
-        return User::GetFollowerListOfUser($userId,$pageNumber,$pageCount);
+        $result = new stdClass();
+        $result->users = User::GetFollowerListOfUser($userId,$pageNumber,$pageCount);
+        return $result;
     }
 
     public static function GetFollowedList($pageNumber,$pageCount){
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         CheckPageNumberAndCount($pageNumber,$pageCount);
-        return User::GetFollowedListOfUser($userId,$pageNumber,$pageCount);
+        $result = new stdClass();
+        $result->users = User::GetFollowedListOfUser($userId,$pageNumber,$pageCount);
+        return $result;
     }
 
-    public  static function SearchUser($query){
+    public static function SearchUser($query){
 
     }
 

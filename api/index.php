@@ -1,4 +1,6 @@
 <?php
+error_reporting(NULL);
+
 require_once('../apiClasses/APINotification.php');
 require_once('../apiClasses/APISonickle.php');
 require_once('../apiClasses/APIUser.php');

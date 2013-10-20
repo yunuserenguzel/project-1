@@ -14,10 +14,11 @@ define("ApiUsernameExistsError",3001);
 define("ApiEmailExistsError",3002);
 define("ApiInvalidFieldNameError",3003);
 define("ApiInvalidInputError",3004);
+define("ApiInputDoesNotExistError",3005);
 function throwError($code,$description){
     $result = new stdClass();
-    $result->error = new stdClass();
-    $result->error->code = $code;
-    $result->error->description = $description;
+    $result->error = true;
+    $result->error_code = $code;
+    $result->error_message = $description;
     die(json_encode($result));
 }

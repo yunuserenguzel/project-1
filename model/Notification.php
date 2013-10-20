@@ -10,8 +10,8 @@
 require_once('../lib/DatabaseManager.php');
 require_once('../lib/Util.php');
 
-define("NotificationTypeUserFollow",NotificationTypeUserFollow);
-define("NotificationTypeSonickleLike",NotificationTypeSonickleLike);
+define("NotificationTypeUserFollow","NotificationTypeUserFollow");
+define("NotificationTypeSonickleLike","NotificationTypeSonickleLike");
 
 
 class Notification {
@@ -24,8 +24,12 @@ class Notification {
 
         $notificationId = Util::GenerateUniqueId();
 
+        $sonickleId = $sonickleId == "" ? "NULL" : "'$sonickleId'";
+        $otherUserId = $otherUserId == "" ? "NULL" : "'$otherUserId'";
+
         $sql = "INSERT INTO `notification`(`id`, `type`, `actor_user_id`, `sonickle_id`, `affected_user_id`, `action_date`)
-                VALUES ('$notificationId','$type','$userId','$sonickleId','$otherUserId',Now())";
+                VALUES ('$notificationId','$type','$userId',$sonickleId,$otherUserId,Now())";
+
         DatabaseConnector::query($sql);
 
         return $notificationId;
@@ -41,7 +45,7 @@ class Notification {
         $sql = "SELECT *
                 FROM notification N
                 WHERE N.affected_user_id = '$userId'
-                LIMIT BY $start,$pageCount";
+                LIMIT $start,$pageCount";
         return DatabaseConnector::get_results($sql);
     }
     public static function ReadNotification($notificationId){

@@ -132,7 +132,7 @@ class User {
                 FROM `following` AS F
                 INNER JOIN `user` AS U ON U.id=F.follower_id
                 WHERE F.followed_id=U.id AND U.id='$userId'
-                LIMIT BY $start, $pageCount";
+                LIMIT $start, $pageCount";
         return DatabaseConnector::get_results($sql);
     }
     public static function GetFollowedListOfUser($userId,$pageNumber,$pageCount){
@@ -146,7 +146,7 @@ class User {
                 FROM `following` AS F
                 INNER JOIN `user` AS U ON U.id=F.followed_id
                 WHERE F.follower_id=U.id AND U.id='$userId'
-                LIMIT BY $start, $pageCount";
+                LIMIT $start, $pageCount";
         return DatabaseConnector::get_results($sql);
     }
 
@@ -156,7 +156,8 @@ class User {
 
         $token = Util::GenerateAuthToken();
 
-        $sql = "INSERT INTO `authentication`(`token`, `user_id`, `creation_date`, `platform`, `is_active`) VALUES ('$token','$userId',Now(),'$platform',1)";
+        $sql = "INSERT INTO `authentication`(`token`, `user_id`, `creation_date`, `platform`, `is_active`)
+        VALUES ('$token','$userId',Now(),'$platform',1)";
         DatabaseConnector::query($sql);
         return $token;
 

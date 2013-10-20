@@ -48,3 +48,9 @@ function CheckPageNumberAndCount($pageNumber,$pageCount){
         throwError(ApiInvalidInputError,"pageCount cannot be negative");
     }
 }
+
+function successfulOperation(){
+    $result = new stdClass();
+    $result->success = true;
+    return $result;
+}

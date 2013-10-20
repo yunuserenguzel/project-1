@@ -1,5 +1,5 @@
 <?php
-
+require_once("../apiClasses/APIError.php");
 define("DatabaseConnectorShouldIgnoreError",false);
 
 class DatabaseConnector{
@@ -9,9 +9,13 @@ class DatabaseConnector{
     private static $isConnected = false;
 
     private static function checkError($sql){
-        if(mysql_errno() > 0)
-            die("$sql : <br/>" . mysql_error());
+        if(mysql_errno() > 0){
+            throwError(4000,"MysqlError: " . mysql_errno() . " \n description: " . mysql_error() . " sql: " . $sql);
+        }
+//            die("$sql : <br/>" . mysql_error());
+
     }
+
 
     public static function get_results( $sql,$ignoreError = DatabaseConnectorShouldIgnoreError ){
         if(DatabaseConnector::$isConnected == false){

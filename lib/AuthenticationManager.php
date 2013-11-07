@@ -22,7 +22,6 @@ class AuthenticationManager {
                 AuthenticationManager::$AuthenticationToken = $token;
             }
         }
-
     }
 
     public static function AuthenticatedUser(){

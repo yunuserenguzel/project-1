@@ -12,8 +12,7 @@ require_once('../lib/Util.php');
 $cmd = param('cmd',true, 1000, "API command is missing");
 $token = param('token',false);
 
-$result = new stdClass();
-$result->cmd = $cmd;
+DatabaseConnector::connect();
 
 if($token != ''){
     AuthenticationManager::AuthenticateWithToken($token);
@@ -22,6 +21,8 @@ if($token != ''){
     }
 }
 
+$result = new stdClass();
+$result->cmd = $cmd;
 switch($cmd){
 
     //user commands
@@ -78,39 +79,39 @@ switch($cmd){
         $result = APIUser::SearchUser($query);
         break;
 
-    //sonickle commands
-    case 'create_sonickle':
-        $sonickle = param('sonickle');
+    //sonic commands
+    case 'create_sonic':
+        $sonic = param('sonic');
         $latitude = param('latitude');
         $longitude = param('longitude');
-        $result = APISonickle::CreateSonickle($sonickle,$latitude,$longitude);
+        $result = APISonickle::CreateSonickle($sonic,$latitude,$longitude);
         break;
 
-    case 'get_my_sonickles':
+    case 'get_my_sonics':
         $pageNumber = param('page_number');
         $pageCount = param('page_count');
         $result = APISonickle::GetMySonickles($pageNumber,$pageCount);
         break;
 
-    case 'get_sonickle_feed':
+    case 'get_sonic_feed':
         $pageNumber = param('page_number');
         $pageCount = param('page_count');
         $result = APISonickle::GetSonickleFeed($pageNumber,$pageCount);
         break;
 
-    case 'like_sonickle':
-        $sonickleId = param('sonickle_id');
-        $result = APISonickle::LikeSonickle($sonickleId);
+    case 'like_sonic':
+        $sonicId = param('sonic_id');
+        $result = APISonickle::LikeSonickle($sonicId);
         break;
 
-    case 'unlike_sonickle':
-        $sonickleId = param('sonickle_id');
-        $result = APISonickle::UnLikeSonickle($sonickleId);
+    case 'unlike_sonic':
+        $sonicId = param('sonic_id');
+        $result = APISonickle::UnLikeSonickle($sonicId);
         break;
 
-    case 'delete_sonickle':
-        $sonickleId = param('sonickle_id');
-        $result = APISonickle::DeleteSonickle($sonickleId);
+    case 'delete_sonic':
+        $sonicId = param('sonic_id');
+        $result = APISonickle::DeleteSonickle($sonicId);
         break;
 
     //notification commands

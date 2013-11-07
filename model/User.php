@@ -166,7 +166,7 @@ class User {
 
     public static function isUserAuthenticated($token){
         $token = mysql_real_escape_string($token);
-        $sql = "SELECT 1 as isAuthenticated FROM authentication WHERE toke = '$token'";
+        $sql = "SELECT 1 as isAuthenticated FROM authentication WHERE token = '$token'";
         if(DatabaseConnector::get_value($sql) == '1'){
             return true;
         }
@@ -180,7 +180,7 @@ class User {
         $sql = "SELECT *
                 FROM user AS U
                 INNER JOIN authentication A ON A.user_id=U.id
-                WHERE A.token = '$token' AND a.is_active=1";
+                WHERE A.token = '{$token}' AND A.is_active=1";
         return DatabaseConnector::get_single($sql);
     }
 

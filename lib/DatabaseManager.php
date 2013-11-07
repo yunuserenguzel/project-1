@@ -4,7 +4,7 @@ define("DatabaseConnectorShouldIgnoreError",false);
 
 class DatabaseConnector{
 
-    public static $hostName='',$user='root',$password='',$database='sonicraph';
+    public static $hostName='',$user='sonic_s1',$password='741285',$database='sonic_1';
 
     private static $isConnected = false;
 
@@ -66,7 +66,7 @@ class DatabaseConnector{
             DatabaseConnector::checkError($sql);
     }
 
-    private static  function connect(){
+    public static function connect(){
         mysql_connect(DatabaseConnector::$hostName,DatabaseConnector::$user,DatabaseConnector::$password);
         mysql_select_db(DatabaseConnector::$database);
     }

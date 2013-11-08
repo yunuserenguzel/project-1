@@ -11,24 +11,24 @@ require_once('../lib/DatabaseManager.php');
 require_once('../lib/Util.php');
 
 define("NotificationTypeUserFollow","NotificationTypeUserFollow");
-define("NotificationTypeSonickleLike","NotificationTypeSonickleLike");
+define("NotificationTypeSonicLike","NotificationTypeSonicLike");
 
 
 class Notification {
 
-    public static function CreateNotification($type,$userId,$sonickleId,$otherUserId){
+    public static function CreateNotification($type,$userId,$sonicId,$otherUserId){
         $type = mysql_real_escape_string($type);
         $userId = mysql_real_escape_string($userId);
-        $sonickleId = mysql_real_escape_string($sonickleId);
+        $sonicId = mysql_real_escape_string($sonicId);
         $otherUserId = mysql_real_escape_string($otherUserId);
 
         $notificationId = Util::GenerateUniqueId();
 
-        $sonickleId = $sonickleId == "" ? "NULL" : "'$sonickleId'";
+        $sonicId = $sonicId == "" ? "NULL" : "'$sonicId'";
         $otherUserId = $otherUserId == "" ? "NULL" : "'$otherUserId'";
 
-        $sql = "INSERT INTO `notification`(`id`, `type`, `actor_user_id`, `sonickle_id`, `affected_user_id`, `action_date`)
-                VALUES ('$notificationId','$type','$userId',$sonickleId,$otherUserId,Now())";
+        $sql = "INSERT INTO `notification`(`id`, `type`, `actor_user_id`, `sonic_id`, `affected_user_id`, `action_date`)
+                VALUES ('$notificationId','$type','$userId',$sonicId,$otherUserId,Now())";
 
         DatabaseConnector::query($sql);
 

@@ -2,7 +2,7 @@
 error_reporting(NULL);
 
 require_once('../apiClasses/APINotification.php');
-require_once('../apiClasses/APISonickle.php');
+require_once('../apiClasses/APISonic.php');
 require_once('../apiClasses/APIUser.php');
 require_once('../apiClasses/APIError.php');
 require_once('../lib/AuthenticationManager.php');
@@ -84,34 +84,34 @@ switch($cmd){
         $sonic = param('sonic');
         $latitude = param('latitude');
         $longitude = param('longitude');
-        $result = APISonickle::CreateSonickle($sonic,$latitude,$longitude);
+        $result = APISonic::CreateSonic($sonic,$latitude,$longitude);
         break;
 
     case 'get_my_sonics':
         $pageNumber = param('page_number');
         $pageCount = param('page_count');
-        $result = APISonickle::GetMySonickles($pageNumber,$pageCount);
+        $result = APISonic::GetMySonics($pageNumber,$pageCount);
         break;
 
     case 'get_sonic_feed':
         $pageNumber = param('page_number');
         $pageCount = param('page_count');
-        $result = APISonickle::GetSonickleFeed($pageNumber,$pageCount);
+        $result = APISonic::GetSonicFeed($pageNumber,$pageCount);
         break;
 
     case 'like_sonic':
         $sonicId = param('sonic_id');
-        $result = APISonickle::LikeSonickle($sonicId);
+        $result = APISonic::LikeSonic($sonicId);
         break;
 
     case 'unlike_sonic':
         $sonicId = param('sonic_id');
-        $result = APISonickle::UnLikeSonickle($sonicId);
+        $result = APISonic::UnLikeSonic($sonicId);
         break;
 
     case 'delete_sonic':
         $sonicId = param('sonic_id');
-        $result = APISonickle::DeleteSonickle($sonicId);
+        $result = APISonic::DeleteSonic($sonicId);
         break;
 
     //notification commands

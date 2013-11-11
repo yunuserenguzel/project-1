@@ -31,6 +31,9 @@ class APISonic
         $userId = AuthenticationManager::AuthenticatedUser()->user_id;
         $result = new stdClass();
         $result->sonics = Sonic::GetSonicListOfUser($userId,$pageNumber,$pageCount);
+        foreach($result->sonics as $key => $value){
+            $result->sonics[$key]->sonic_url = "http://sonicraph.com/sonic/".$result->sonics[$key]->id.".snc";
+        }
         return $result;
     }
 

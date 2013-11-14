@@ -163,6 +163,12 @@ class User {
 
     }
 
+    public static function GetUser($user_id){
+        $user_id = mysql_real_escape_string($user_id);
+
+        $sql = "SELECT id,profile_image,realname,username FROM user WHERE id='$user_id'";
+        return DatabaseConnector::get_single($sql);
+    }
 
     public static function isUserAuthenticated($token){
         $token = mysql_real_escape_string($token);

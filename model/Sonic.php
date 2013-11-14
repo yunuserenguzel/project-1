@@ -37,8 +37,15 @@ class Sonic {
                 INNER JOIN sonic ON sonic.id = sonicowner.sonic_id
                 WHERE sonicowner.user_id='$userId'
                 LIMIT $start, $pageCount";
-        return DatabaseConnector::get_results($sql);
+        return Sonic::InsertUserInfoToSonics(DatabaseConnector::get_results($sql));
 
+    }
+    private static function InsertUserInfoToSonics($sonics){
+        for($i=0;$i<count($sonics);$i++){
+            $sonic = $sonics[$i];
+            $sonic->user = User::GetUser($sonic->user_id);
+        }
+        return $sonics;
     }
     public static function GetSonicFeedForUser($userId,$pageNumber,$pageCount){
         $userId = mysql_real_escape_string($userId);
@@ -53,7 +60,7 @@ class Sonic {
                 INNER JOIN sonic AS S ON S.id=SO.sonic_id
                 WHERE F.follower_id='$userId'
                 LIMIT $start, $pageCount";
-        return DatabaseConnector::get_results($sql);
+        return Sonic::InsertUserInfoToSonics(DatabaseConnector::get_results($sql));
     }
     public static function LikeSonic($userId,$sonicId){
         $userId = mysql_real_escape_string($userId);

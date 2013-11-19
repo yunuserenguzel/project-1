@@ -10,14 +10,14 @@
 
 class Util {
 
-    public static $SERVERNAME = "SNCKL001";
+    public static $SERVERNAME = "SNC001";
 
     public static function GenerateUniqueId(){
-        return uniqid(Util::$SERVERNAME);
+        return time().uniqid(Util::$SERVERNAME,true);
     }
 
     public static function GenerateAuthToken(){
-        return uniqid(Util::$SERVERNAME) . uniqid() . uniqid();
+        return time().uniqid(Util::$SERVERNAME) . uniqid() . uniqid();
     }
 
     public static function GeneratePassHash($password){

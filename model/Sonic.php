@@ -25,42 +25,47 @@ class Sonic {
         //TODO: move sonic to sonic folder
         return $sonicId;
     }
-    public static function GetSonicListOfUser($userId,$pageNumber,$pageCount){
+
+    public static function GetSonicListOfUser($userId,$count,$sonic = '', $after = true){
         $userId = mysql_real_escape_string($userId);
-        $pageNumber = mysql_real_escape_string($pageNumber);
-        $pageCount = mysql_real_escape_string($pageCount);
-
-        $start = $pageNumber * $pageCount;
-
-        $sql = "SELECT *
+        $sonic = mysql_real_escape_string($sonic);
+        $count = mysql_real_escape_string($count);
+        $sql = "SELECT S.*,SO.*
                 FROM `sonicowner`
                 INNER JOIN sonic ON sonic.id = sonicowner.sonic_id
-                WHERE sonicowner.user_id='$userId'
-                LIMIT $start, $pageCount";
+                WHERE sonicowner.user_id='$userId' ";
+        if($sonic != ''){
+            $sql .= " AND S.creation_date " . ($after ? '<' : '>') ." (SELECT creation_date FROM sonic WHERE id='$sonic')";
+        }
+        $sql .= " LIMIT $count";
         return Sonic::InsertUserInfoToSonics(DatabaseConnector::get_results($sql));
-
     }
+
+    public static function GetSonicFeedForUser($userId,$count,$sonic = '', $after = true){
+        $userId = mysql_real_escape_string($userId);
+        $sonic = mysql_real_escape_string($sonic);
+        $count = mysql_real_escape_string($count);
+        $sql = "SELECT S.*,SO.*
+                FROM sonic AS S
+                INNER JOIN sonicowner AS SO ON SO.sonic_id=S.id
+                LEFT JOIN following AS F ON F.followed_id=SO.user_id
+                WHERE (F.follower_id='$userId' OR SO.user_id='$userId') ";
+//        FROM `following` AS F
+//                INNER JOIN sonicowner AS SO ON SO.user_id=F.followed_id
+//                INNER JOIN sonic AS S ON S.id=SO.sonic_id
+        if($sonic != ''){
+            $sql .= " AND S.creation_date " . ($after ? '<' : '>') ." (SELECT creation_date FROM sonic WHERE id='$sonic') ";
+        }
+        $sql .= " LIMIT $count";
+        return Sonic::InsertUserInfoToSonics(DatabaseConnector::get_results($sql));
+    }
+
     private static function InsertUserInfoToSonics($sonics){
         for($i=0;$i<count($sonics);$i++){
             $sonic = $sonics[$i];
             $sonic->user = User::GetUser($sonic->user_id);
         }
         return $sonics;
-    }
-    public static function GetSonicFeedForUser($userId,$pageNumber,$pageCount){
-        $userId = mysql_real_escape_string($userId);
-        $pageCount = mysql_real_escape_string($pageCount);
-        $pageNumber = mysql_real_escape_string($pageNumber);
-
-        $start = $pageNumber * $pageCount;
-
-        $sql = "SELECT *
-                FROM `following` AS F
-                INNER JOIN sonicowner AS SO ON SO.user_id=F.followed_id
-                INNER JOIN sonic AS S ON S.id=SO.sonic_id
-                WHERE F.follower_id='$userId'
-                LIMIT $start, $pageCount";
-        return Sonic::InsertUserInfoToSonics(DatabaseConnector::get_results($sql));
     }
     public static function LikeSonic($userId,$sonicId){
         $userId = mysql_real_escape_string($userId);

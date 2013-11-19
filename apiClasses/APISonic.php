@@ -26,22 +26,39 @@ class APISonic
 
     }
 
-    public static function GetMySonics($pageNumber,$pageCount){
-        CheckPageNumberAndCount($pageNumber,$pageCount);
-        $userId = AuthenticationManager::AuthenticatedUser()->user_id;
+//    public static function GetMySonics($pageNumber,$pageCount){
+//        CheckPageNumberAndCount($pageNumber,$pageCount);
+//        $userId = AuthenticationManager::AuthenticatedUser()->user_id;
+//        $result = new stdClass();
+//        $result->sonics = Sonic::GetSonicListOfUser($userId,$pageNumber,$pageCount);
+//        foreach($result->sonics as $key => $value){
+//            $result->sonics[$key]->sonic_url = "http://sonicraph.com/sonic/".$result->sonics[$key]->id.".snc";
+//        }
+//        return $result;
+//    }
+
+//    public static function GetSonicFeed($pageNumber,$pageCount){
+//        CheckPageNumberAndCount($pageNumber,$pageCount);
+//        $userId = AuthenticationManager::AuthenticatedUser()->user_id;
+//        $result = new stdClass();
+//        $result->sonics = Sonic::GetSonicFeedForUser($userId,$pageNumber,$pageCount);
+//        return $result;
+//    }
+
+    public static function GetSonics($user,$count,$after_sonic,$before_sonic){
+        $count = $count == '' ? 20 : $count;
+        $after = $after_sonic != '';
+        $sonic = $after ? $after_sonic : $before_sonic;
         $result = new stdClass();
-        $result->sonics = Sonic::GetSonicListOfUser($userId,$pageNumber,$pageCount);
+        if($user == ''){
+            $result->sonics = Sonic::GetSonicFeedForUser(AuthenticationManager::AuthenticatedUser()->user_id,$count, $sonic, $after);
+        }
+        else {
+            $result->sonics = Sonic::GetSonicListOfUser($user, $count, $sonic, $after);
+        }
         foreach($result->sonics as $key => $value){
             $result->sonics[$key]->sonic_url = "http://sonicraph.com/sonic/".$result->sonics[$key]->id.".snc";
         }
-        return $result;
-    }
-
-    public static function GetSonicFeed($pageNumber,$pageCount){
-        CheckPageNumberAndCount($pageNumber,$pageCount);
-        $userId = AuthenticationManager::AuthenticatedUser()->user_id;
-        $result = new stdClass();
-        $result->sonics = Sonic::GetSonicFeedForUser($userId,$pageNumber,$pageCount);
         return $result;
     }
 

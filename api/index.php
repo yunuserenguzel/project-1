@@ -1,5 +1,6 @@
 <?php
 error_reporting(NULL);
+date_default_timezone_set('UTC');
 
 require_once('../apiClasses/APINotification.php');
 require_once('../apiClasses/APISonic.php');
@@ -22,7 +23,6 @@ if($token != ''){
 }
 
 $result = new stdClass();
-$result->cmd = $cmd;
 switch($cmd){
 
     //user commands
@@ -87,17 +87,19 @@ switch($cmd){
         $result = APISonic::CreateSonic($sonic,$latitude,$longitude);
         break;
 
-    case 'get_my_sonics':
-        $pageNumber = param('page_number');
-        $pageCount = param('page_count');
-        $result = APISonic::GetMySonics($pageNumber,$pageCount);
+    case 'get_sonics':
+        $user = param('user',false);
+        $count = param('count',false);
+        $before_sonic = param('before_sonic',false);
+        $after_sonic = param('after_sonic',false);
+        $result = APISonic::GetSonics($user,$count,$before_sonic,$after_sonic);
         break;
 
-    case 'get_sonic_feed':
-        $pageNumber = param('page_number');
-        $pageCount = param('page_count');
-        $result = APISonic::GetSonicFeed($pageNumber,$pageCount);
-        break;
+//    case 'get_sonics':
+//        $pageNumber = param('page_number');
+//        $pageCount = param('page_count');
+//        $result = APISonic::GetSonicFeed($pageNumber,$pageCount);
+//        break;
 
     case 'like_sonic':
         $sonicId = param('sonic_id');
@@ -126,4 +128,6 @@ switch($cmd){
 
 }
 
+$result->cmd = $cmd;
+$result->request_date = date('Y-m-d H:i:s T', time());
 echo json_encode($result);

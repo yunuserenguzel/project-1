@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="reset.css" type="text/css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <title>Sonicraph</title>
+
+    <style type="text/css">
+        ::-webkit-input-placeholder { /* WebKit browsers */
+            color:    #EEE;
+        }
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color:    #EEE;
+        }
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color:    #EEE;
+        }
+        :-ms-input-placeholder { /* Internet Explorer 10+ */
+            color:    #EEE;
+        }
+        html{
+            height: 100%;
+            width: 100%;
+            font-family: arial;
+            overflow: hidden;
+        }
+        body{
+
+            height:100%;
+            width: 100%;
+            overflow: auto;
+            text-align: center;
+        }
+        /*@media all and (max-width: 699px) and (min-width: 520px), (min-width: 1151px) {*/
+            /*body {*/
+                /*overflow: auto;*/
+            /*}*/
+        /*}*/
+        #background{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            background-image: url(image/backgroung.png);
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+            overflow: hidden;
+
+            -webkit-transform:scale(1.5);
+            -moz-transform:scale(1.5);
+            -o-transform:scale(1.5);
+            transform:scale(1.5);
+        }
+        #logo{
+            margin: auto;
+            margin-top: 5%;
+            display: block;
+            padding: 0;
+        }
+        #moment{
+            margin: auto;
+            margin-top: 8%;
+        }
+
+        #form{
+            background-image: url(image/Segment.png);
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+            overflow: hidden;
+            width: 600px;
+            height: 60px;
+            margin: auto;
+            margin-top: 3%;
+            padding: 0;
+            line-height: 60px;
+            position: relative;
+        }
+
+        #email,#notify{
+            position: absolute;
+            background-color: rgba(0,0,0,0);
+            /*border: 2px solid #f00;*/
+            border: 0;
+            height: 60px;
+            outline: none;
+            margin: 0;
+            padding: 0;
+        }
+        #email{
+            top: 0px;
+            left: 0px;
+            width: 430px;
+            line-height: 60px;
+            font-size: 30px;
+            color: #fff;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+            font-weight: 300;
+            padding-left: 10px;
+        }
+        #notify{
+            top: 0px;
+            left: 437px;
+            background-image: url(image/Notify.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 160px;
+            display: block;
+        }
+        #amazing{
+            margin: auto;
+            margin-top: 8%;
+            display: block;
+            width: 621px;
+        }
+        #iphone{
+            margin: auto;
+            margin-top: 2%;
+            display: block;
+            width: 863px;
+        }
+
+
+        @-webkit-keyframes myfirst /* Safari and Chrome */
+        {
+            from {
+                -webkit-transform: translateX(-20%);
+                height: 120%;
+                width: 120%
+            }
+            to {
+                -webkit-transform: translateX(0%);
+                height: 100%;
+                width: 100%
+            }
+        }
+
+        #background {
+            -webkit-transition:  -webkit-transform 0.9s .9s ease-out;
+            -moz-transition: -moz-transform 0.9s .9s ease-out;
+            -o-transition: -o-transform 0.9s .9s ease-out;
+            -ms-transition: -ms-transform 0.9s .9s ease-out;
+            transition: transform 0.9s .9s ease-out;
+        }
+        #background.animate {
+            -webkit-transform:scale(1);
+            -moz-transform:scale(1);
+            -o-transform:scale(1);
+            transform:scale(1);
+        }
+
+        /*#background*/
+        /*{*/
+            /*-webkit-transform: scale(120%120%) translate(-20%);*/
+            /*-webkit-animation: myfirst 1s 1s; *//* Safari and Chrome */
+            /*-webkit-animation-duration: 1s;*/
+            /*-webkit-animation-iteration-count: 1;*/
+            /*-webkit-animation-fill-mode: forwards;*/
+        /*}*/
+
+    </style>
+    <script type="text/javascript">
+//        function notify(){
+//            var emailInput = document.getElementById('email');
+//            $.ajax({
+//                url:""
+//            });
+//        }
+function launchFullScreen(element) {
+    if(element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if(element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    } else if(element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if(element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+}
+
+$(document.body).click(function(){
+    launchFullScreen(document.body); // the whole page
+});
+// Launch fullscreen for browsers that support it!
+    </script>
+</head>
+<body onload="document.getElementById('background').className='animate'">
+
+<div id="background" ></div>
+
+<img id="logo" src="image/Logo.png">
+<img id="moment" src="image/MomentsCreateMemories.png">
+
+<div id="form">
+    <input id="email" type="email" name="email" autocomplete="off" placeholder="Enter your e-mail address">
+    <input id="notify" type="button">
+</div>
+
+<img id="amazing" src="image/SomethingAmazing.png" >
+<img id="iphone" src="image/SonicraphforiPhone.png">
+
+</body>
+</html>

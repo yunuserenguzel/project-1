@@ -32,7 +32,7 @@
                 success:function(result){
                     console.log("result: ", result);
                     if(result == "true"){
-                        $('#form').html("<p>Your email is saved to our system. We will notify you when we launch Sonicraph!</p>");
+                        $('#form').html("<p style='font-size: larger; padding-top: 20px; '>Thanks :)</p>");
                     } else if(result == "exist"){
                         $('#form').html("<p style='margin-top: 10px'>"+data['email']+" you entered is already in our list.</p>&nbsp;<a href='#' onclick='javascript: revert(); return false;'>Try different mail</a>");
                     } else {
@@ -53,7 +53,7 @@
             document.getElementById('notify').disabled = false;
         }
         var setBackground = function(){
-            var number = Math.ceil(Math.random()*5);
+            var number = Math.ceil(Math.random()*3);
             var imageUrl = "image/background-"+number+".jpg";
             $("#background").css({"background-image":"url("+imageUrl+")"});
             console.log("I'm here");
